@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asci-Art Web</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styling.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <header>
+                <nav>
+                    <a href="/" id="home-link" class="nav-link">Home</a>
+                    <a href="/about" id="about-link" class="nav-link">About</a>
+                </nav>
+            </header>
+        </div>
+        <h1 class="heading">Generate Ascii Art</h1>
+        <form action="./ascii-art" method="post">
+            <label for="input" class="input-label">Enter Text Here:</label><br><br>
+            {{if .Input}}
+            <textarea name="input" id="input" required>{{.Input}}</textarea><br><br>
+            {{else}}
+            <textarea name="input" id="input" required></textarea><br><br>
+            {{end}}
+            <label for="filename" class="input-label">Select Banner File:</label>
+            <select name="filename" id="file" class="my-select">
+                <option value="standard.txt" {{if eq .Filename "standard.txt" }}selected{{end}}>standard</option>
+                <option value="shadow.txt" {{if eq .Filename "shadow.txt" }}selected{{end}}>shadow</option>
+                <option value="thinkertoy.txt" {{if eq .Filename "thinkertoy.txt" }}selected{{end}}>thinkertoy</option>
+            </select>
+            <div class="button-container">
+                <button type="submit" class="my-button">Generate</button>
+                <a href="/" class="my-button a-button clear">Reset</a>
+                {{if .Result}}
+                <a href="/download?input={{.Input}}&filename={{.Filename}}" class="my-button a-button">Download</a>
+                {{end}}
+            </div>
+        </form>
+        {{if .Result}}
+        <pre class="result">{{ .Result}}</pre>
+        {{else}}
+        <pre class="result"></pre>
+        {{end}}
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var currentPath = window.location.pathname;
+            
+            // Get all nav links
+            var navLinks = document.querySelectorAll('.nav-link');
+            
+            // Iterate over each link to find the active one
+            navLinks.forEach(function(link) {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
